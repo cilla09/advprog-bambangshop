@@ -77,6 +77,11 @@ This is the place for you to write reflections:
 ### Mandatory (Publisher) Reflections
 
 #### Reflection Publisher-1
+1. Dalam pattern Observer, semua subscriber perlu mengimplementasi interface yang sama agar implementasi yang berbeda-beda akan tetap merespon pembaruan secara konsisten. Oleh karena itu, dalam konteks BambangShop memiliki beberapa jenis subscriber, lebih baik interface/trait digunakan dalam project agar semua subscriber memiliki perilaku sesuai yang sama. Untuk sekarang, hanya terdapat satu jenis subscriber maka boleh menggunakan hanya satu struct Model. Namun, agar proyek lebih fleksibel jika ingin menambah jenis subscriber lain, lebih baik kita menggunakan interface/trait sejak awal.
+
+2. Karena id di Program dan url di Subscriber harus unik, maka DashMap lebih sesuai untuk digunakan. Hal ini disebabkan Vec (list) merupakan list biasa yang tidak menjamin keunikan data, sehingga jika kita mau memastikan data tetap unik, kita harus melakukan iterasi manual satu per satu. Sementara, DashMap (map/dictionary) secara otomatis menjamin keunikan data, karena key dalam map/dictionary harus unik sehingga penggunaan DashMap untuk memastikan id dan url unik jauh lebih efisien dari Vec. 
+
+3. Dalam kasus ini, kita memerlukan DashMap karena akan menghandle banyak thread (subscribers) dalam waktu yang bersamaan. DashMap merupakan HashMap tanpa lock, jadi bisa diakses banyak thread tanpa menyebabkan bottleneck dan aman untuk concurrency. Di atas itu, kita juga lebih baik menggunakan Singleton pattern untuk memastikan hanya ada satu instance dari HashMap yang digunakan sembari DashMap memastikan concurrency aman.
 
 #### Reflection Publisher-2
 
